@@ -7,6 +7,7 @@ import com.WeChatSell.sell.dto.OrderDTO;
 import com.WeChatSell.sell.enums.ResultEnum;
 import com.WeChatSell.sell.exception.SellException;
 import com.WeChatSell.sell.form.OrderForm;
+import com.WeChatSell.sell.service.BuyerService;
 import com.WeChatSell.sell.service.OrderService;
 import com.WeChatSell.sell.util.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,9 @@ public class BuyOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     // 创建订单
     @PostMapping("/create")
@@ -78,8 +82,7 @@ public class BuyOrderController {
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId){
 
-        //TODO 安全验证
-        OrderDTO orderDTO = orderService.findOne(orderId);
+        OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
         return ResultVOUtil.success(orderDTO);
 
     }
@@ -89,11 +92,8 @@ public class BuyOrderController {
     public ResultVO cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderId") String orderId){
 
-        //TODO 安全验证
 
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        orderService.cancel(orderDTO);
-
+        buyerService.cancelOrder(openid, orderId);
         return ResultVOUtil.success();
     }
 
