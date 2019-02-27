@@ -7,10 +7,14 @@ spring:
   jpa:
     show-sql: true
     open-in-view: true
+  jackson:
+    default-property-inclusion: non_null
 
 
 server:
   context-path: /sell
+
+
 
 #logging:
 #  pattern:
