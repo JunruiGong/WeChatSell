@@ -13,6 +13,7 @@ import com.WeChatSell.sell.exception.SellException;
 import com.WeChatSell.sell.repository.OrderDetailRepository;
 import com.WeChatSell.sell.repository.OrderMasterRepository;
 import com.WeChatSell.sell.service.OrderService;
+import com.WeChatSell.sell.service.PayService;
 import com.WeChatSell.sell.service.ProductService;
 import com.WeChatSell.sell.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -152,8 +156,8 @@ public class OrderServiceImpl implements OrderService {
         productService.increaseStock(cartDTOList);
 
         // 如果已支付，需要退款
-        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
-            //TODO
+        if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
+            payService.refund(orderDTO);
         }
 
         return orderDTO;
@@ -165,8 +169,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO finish(OrderDTO orderDTO) {
 
         // 判断订单状态
-        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
-            log.error("【完结订单】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(),orderDTO.getOrderStatus());
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+            log.error("【完结订单】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
 
@@ -188,15 +192,15 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDTO paid(OrderDTO orderDTO) {
         // 判断订单状态
-        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
-            log.error("【订单支付】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(),orderDTO.getOrderStatus());
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+            log.error("【订单支付】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
 
         // 判断支付状态
-        if(!orderDTO.getPayStatus().equals(PayStatusEnum.WAIT.getCode())){
+        if (!orderDTO.getPayStatus().equals(PayStatusEnum.WAIT.getCode())) {
             log.error("【订单支付】订单支付状态不正确, orderDTO={}", orderDTO);
-            throw  new SellException(ResultEnum.ORDER_PAY_STATUS_ERROR);
+            throw new SellException(ResultEnum.ORDER_PAY_STATUS_ERROR);
         }
 
         // 修改支付状态

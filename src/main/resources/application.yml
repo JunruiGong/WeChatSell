@@ -20,7 +20,7 @@ wechat:
   mpAppSecret: d0a756ad4a28f4aaa8aac821a8443b0e
   mchId: 12345667899
   mchKey: 123456
-  keyPath: /local/h5.xml
+  keyPath: /local/h5.p12
   notifyUrl: http://gongjunrui.natapp1.cc/sell/pay/notify
 
 #logging:
