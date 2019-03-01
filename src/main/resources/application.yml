@@ -16,8 +16,12 @@ server:
 
 
 wechat:
-   mpAppId: wx909701d6c726456e
-   mpAppSecret: d0a756ad4a28f4aaa8aac821a8443b0e
+  mpAppId: wx909701d6c726456e
+  mpAppSecret: d0a756ad4a28f4aaa8aac821a8443b0e
+  mchId: 12345667899
+  mchKey: 123456
+  keyPath: /local/h5.xml
+  notifyUrl: http://gongjunrui.natapp1.cc/sell/pay/notify
 
 #logging:
 #  pattern:
