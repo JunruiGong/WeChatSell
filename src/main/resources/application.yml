@@ -15,6 +15,9 @@ server:
   context-path: /sell
 
 
+wechat:
+   mpAppId: wx909701d6c726456e
+   mpAppSecret: d0a756ad4a28f4aaa8aac821a8443b0e
 
 #logging:
 #  pattern:
