@@ -31,7 +31,7 @@ public class ProductInfo {
     private String productIcon;
 
     // 商品状态，0正常1下架
-    private Integer productStatus;
+    private Integer productStatus = ProductStatusEnum.DOWN.getCode();
 
     private Integer categoryType;
 
@@ -40,8 +40,8 @@ public class ProductInfo {
     private Date updateTime;
 
     @JsonIgnore
-    public ProductStatusEnum getProductStatusEnum(){
-        return EnumUtil.getByCode(productStatus,ProductStatusEnum.class);
+    public ProductStatusEnum getProductStatusEnum() {
+        return EnumUtil.getByCode(productStatus, ProductStatusEnum.class);
     }
 
 }

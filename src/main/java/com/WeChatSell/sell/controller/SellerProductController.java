@@ -8,6 +8,7 @@ import com.WeChatSell.sell.exception.SellException;
 import com.WeChatSell.sell.form.ProductForm;
 import com.WeChatSell.sell.service.CategoryService;
 import com.WeChatSell.sell.service.ProductService;
+import com.WeChatSell.sell.util.KeyUtil;
 import com.sun.tools.internal.xjc.reader.xmlschema.BindGreen;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -168,8 +169,17 @@ public class SellerProductController {
             return new ModelAndView("common/error", map);
         }
 
+
+        ProductInfo productInfo = new ProductInfo();
         try {
-            ProductInfo productInfo = productService.findOne(productForm.getProductId());
+
+            // 如果productId不为空，则该操作是更新商品
+            if(!StringUtils.isEmpty(productForm.getProductId())){
+                productInfo = productService.findOne(productForm.getProductId());
+            }else{
+                productForm.setProductId(KeyUtil.genUniqueKey());
+            }
+
             BeanUtils.copyProperties(productForm, productInfo);
             productService.save(productInfo);
         } catch (SellException e) {
