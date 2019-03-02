@@ -28,14 +28,18 @@
                     <#list orderDTOPage.content as orderDTO>
                     <tr>
                         <td> ${orderDTO.orderId}</td>
-                        <th> ${orderDTO.buyerName}</th>
-                        <th> ${orderDTO.buyerPhone}</th>
-                        <th> ${orderDTO.buyerAddress}</th>
-                        <th> ${orderDTO.getOrderStatusEnum().message}</th>
-                        <th> ${orderDTO.getPayStatusEnum().message}</th>
-                        <th> ${orderDTO.createTime}</th>
-                        <th> 详情</th>
-                        <th>取消</th>
+                        <td> ${orderDTO.buyerName}</td>
+                        <td> ${orderDTO.buyerPhone}</td>
+                        <td> ${orderDTO.buyerAddress}</td>
+                        <td> ${orderDTO.getOrderStatusEnum().message}</td>
+                        <td> ${orderDTO.getPayStatusEnum().message}</td>
+                        <td> ${orderDTO.createTime}</td>
+                        <td><a href="/sell/seller/order/detail?orderId=${orderDTO.getOrderId()}">详情</a></td>
+                        <td>
+                            <#if orderDTO.getOrderStatusEnum().message != "已取消">
+                                <a href="/sell/seller/order/cancel?orderId=${orderDTO.getOrderId()}">取消</a>
+                            </#if>
+                        </td>
                     </tr>
 
                     </#list>
