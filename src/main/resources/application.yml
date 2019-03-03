@@ -9,6 +9,10 @@ spring:
     open-in-view: true
   jackson:
     default-property-inclusion: non_null
+  redis:
+    host: 192.168.0.19
+    port: 6379
+
 
 
 server:
@@ -26,8 +30,11 @@ wechat:
   notifyUrl: http://gongjunrui.natapp1.cc/sell/pay/notify
 
 projectUrl:
-  wechatMpAuthorize: http://gongjunrui.natapp1.cc/
-  wechatOpenAuthorize: http://gongjunrui.natapp1.cc/
+  wechatMpAuthorize: http://gongjunrui.natapp1.cc
+  wechatOpenAuthorize: http://gongjunrui.natapp1.cc
+  sell: http://gongjunrui.natapp1.cc
+
+
 
 #logging:
 #  pattern:

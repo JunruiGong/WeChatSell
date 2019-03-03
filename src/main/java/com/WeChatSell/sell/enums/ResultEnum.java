@@ -43,6 +43,8 @@ public enum ResultEnum {
     PRODUCT_ONSELL_SUCCESS(25,"上架商品成功"),
 
     PRODUCT_OFFSELL_SUCCESS(26,"下架商品成功"),
+
+    LOGIN_ERROR(27,"登陆失败，登陆信息不正确")
     ;
 
     private Integer code;

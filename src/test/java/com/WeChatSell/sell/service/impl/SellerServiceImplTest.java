@@ -1,7 +1,7 @@
 package com.WeChatSell.sell.service.impl;
 
 import com.WeChatSell.sell.dataobject.SellerInfo;
-import com.WeChatSell.sell.service.SellService;
+import com.WeChatSell.sell.service.SellerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
