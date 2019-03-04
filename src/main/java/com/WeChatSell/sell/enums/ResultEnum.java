@@ -44,7 +44,9 @@ public enum ResultEnum {
 
     PRODUCT_OFFSELL_SUCCESS(26,"下架商品成功"),
 
-    LOGIN_ERROR(27,"登陆失败，登陆信息不正确")
+    LOGIN_ERROR(27,"登陆失败，登陆信息不正确"),
+
+    LOGOUT_SUCCESS(28,"登出成功")
     ;
 
     private Integer code;

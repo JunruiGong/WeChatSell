@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import sun.tools.jstat.Token;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.CookieStore;
 import java.util.Map;
@@ -39,13 +41,11 @@ public class SellerUserController {
     private ProjectUrlConfig projectUrlConfig;
 
     @GetMapping("/login")
-    public ModelAndView login(@RequestParam("openid") String openid,
-                              HttpServletResponse response,
-                              Map<String, Object> map) {
+    public ModelAndView login(@RequestParam("openid") String openid, HttpServletResponse response, Map<String, Object> map) {
         // 1. openid去和数据库例的数据匹配
         SellerInfo sellerInfo = sellerService.findSellerInfoByOpenid(openid);
         if (sellerInfo == null) {
-            map.put("msg", ResultEnum.LOGIN_ERROR);
+            map.put("msg", ResultEnum.LOGIN_ERROR.getMessage());
             map.put("url", "/sell/seller/order/list");
             return new ModelAndView("common/error");
         }
@@ -63,7 +63,21 @@ public class SellerUserController {
 
 
     @GetMapping("/logout")
-    public void logout() {
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response, Map<String, Object> map) {
+        // 1. 从cookie里查询
+        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
 
+        if (cookie != null) {
+            // 2. 清除cookie
+            redisTemplate.opsForValue().getOperations().delete(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
+
+            // 3. 清除redis
+            CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+
+        }
+        map.put("msg", ResultEnum.LOGOUT_SUCCESS.getMessage());
+        map.put("url", "/sell/seller/order/list");
+
+        return new ModelAndView("common/success", map);
     }
 }
