@@ -12,10 +12,7 @@ import com.WeChatSell.sell.enums.ResultEnum;
 import com.WeChatSell.sell.exception.SellException;
 import com.WeChatSell.sell.repository.OrderDetailRepository;
 import com.WeChatSell.sell.repository.OrderMasterRepository;
-import com.WeChatSell.sell.service.OrderService;
-import com.WeChatSell.sell.service.PayService;
-import com.WeChatSell.sell.service.ProductService;
-import com.WeChatSell.sell.service.PushMessageService;
+import com.WeChatSell.sell.service.*;
 import com.WeChatSell.sell.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -50,6 +47,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
+
 
     @Override
     @Transactional
@@ -93,6 +94,9 @@ public class OrderServiceImpl implements OrderService {
                 e -> new CartDTO(e.getProductId(), e.getProductQuantity())
         ).collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
+
+        // 发送websocket消息
+        webSocket.sendMessage("有新的订单");
 
         return orderDTO;
     }

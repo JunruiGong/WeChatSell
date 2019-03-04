@@ -23,32 +23,35 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class SellerAuthorizeAspect {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
-    @Pointcut("execution(public * com.WeChatSell.sell.controller.Sell*.*(..))" +
-            "&& !execution(public * com.WeChatSell.sell.controller.SellerUserController.*(..))")
-    public void verify() {
-    }
+    // 卖家查询订单前需要登陆，这里为了方便测试就先把登陆校验的代码注释了
 
-    @Before("verify()")
-    public void doVerify() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
-        // 查询cookie
-        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
-
-        if (cookie == null) {
-            log.warn("【登陆校验】Cookie中查询不到token");
-            throw new SellerAuthorizeException();
-        }
-
-        // 去redis中查找
-        String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
-        if (StringUtils.isEmpty(tokenValue)) {
-            log.warn("【登陆校验】Redis中查询不到该token");
-            throw new SellerAuthorizeException();
-        }
-    }
+//    @Autowired
+//    private StringRedisTemplate redisTemplate;
+//
+//    @Pointcut("execution(public * com.WeChatSell.sell.controller.Sell*.*(..))" +
+//            "&& !execution(public * com.WeChatSell.sell.controller.SellerUserController.*(..))")
+//    public void verify() {
+//    }
+//
+//    @Before("verify()")
+//    public void doVerify() {
+//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest request = attributes.getRequest();
+//
+//        // 查询cookie
+//        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
+//
+//        if (cookie == null) {
+//            log.warn("【登陆校验】Cookie中查询不到token");
+//            throw new SellerAuthorizeException();
+//        }
+//
+//        // 去redis中查找
+//        String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
+//        if (StringUtils.isEmpty(tokenValue)) {
+//            log.warn("【登陆校验】Redis中查询不到该token");
+//            throw new SellerAuthorizeException();
+//        }
+//    }
 }
