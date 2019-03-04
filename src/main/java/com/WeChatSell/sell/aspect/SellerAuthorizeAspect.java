@@ -50,6 +50,5 @@ public class SellerAuthorizeAspect {
             log.warn("【登陆校验】Redis中查询不到该token");
             throw new SellerAuthorizeException();
         }
-
     }
 }

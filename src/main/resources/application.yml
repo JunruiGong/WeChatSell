@@ -28,6 +28,9 @@ wechat:
   mchKey: 123456
   keyPath: /local/h5.p12
   notifyUrl: http://gongjunrui.natapp1.cc/sell/pay/notify
+  templateId:
+    orderStatus: d-959zURuPoqXTJrEx6faLNMaYIdupJfaK7LFfjaTgc
+
 
 projectUrl:
   wechatMpAuthorize: http://gongjunrui.natapp1.cc

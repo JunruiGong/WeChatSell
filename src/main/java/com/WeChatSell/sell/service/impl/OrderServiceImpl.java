@@ -15,6 +15,7 @@ import com.WeChatSell.sell.repository.OrderMasterRepository;
 import com.WeChatSell.sell.service.OrderService;
 import com.WeChatSell.sell.service.PayService;
 import com.WeChatSell.sell.service.ProductService;
+import com.WeChatSell.sell.service.PushMessageService;
 import com.WeChatSell.sell.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -46,6 +47,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PayService payService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
 
     @Override
     @Transactional
@@ -181,6 +185,10 @@ public class OrderServiceImpl implements OrderService {
             log.error("【完结订单】更新失败，orderMaster={}", orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
         }
+
+        // 推送微信模版消息
+        pushMessageService.orderStatus(orderDTO);
+
         return orderDTO;
 
 
