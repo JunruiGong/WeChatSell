@@ -39,9 +39,16 @@ projectUrl:
 
 
 
+
 #logging:
 #  pattern:
 #    console: "%d - %msg%n"
 #  #path: /var/log/tomcat/
 #  file: /var/log/tomcat/sell.log
 #  level: debug
+logging:
+  level:
+    com.WeChatSell.sell.dataobject.mapper: trace
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

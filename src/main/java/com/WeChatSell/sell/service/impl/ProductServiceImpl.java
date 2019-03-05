@@ -9,6 +9,9 @@ import com.WeChatSell.sell.repository.ProductInfoRepository;
 import com.WeChatSell.sell.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     ProductInfoRepository repository;
 
     @Override
+    @Cacheable(cacheNames = "product", key = "1234")
     public ProductInfo findOne(String productId) {
         return repository.findOne(productId);
     }
@@ -41,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CachePut(cacheNames = "product", key = "1234")
     public ProductInfo save(ProductInfo productInfo) {
         return repository.save(productInfo);
     }

@@ -3,13 +3,16 @@ package com.WeChatSell.sell.VO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /***
  * 商品详情
  */
 @Data
-public class ProductInfoVO {
+public class ProductInfoVO implements Serializable {
+
+    private static final long serialVersionUID = -7292063071556150246L;
 
     @JsonProperty("id")
     private String productId;

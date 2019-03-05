@@ -1,7 +1,10 @@
 package com.WeChatSell.sell.exception;
 
 import com.WeChatSell.sell.enums.ResultEnum;
+import lombok.Data;
+import lombok.Getter;
 
+@Getter
 public class SellException extends RuntimeException{
     private Integer code;
 
